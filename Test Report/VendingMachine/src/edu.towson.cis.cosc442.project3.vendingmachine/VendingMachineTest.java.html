@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>VendingMachineTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">VendingMachine (Feb 25, 2021 12:32:37 PM)</a> &gt; <a href="../../index.html" class="el_group">VendingMachine</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">edu.towson.cis.cosc442.project3.vendingmachine</a> &gt; <span class="el_source">VendingMachineTest.java</span></div><h1>VendingMachineTest.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package edu.towson.cis.cosc442.project3.vendingmachine;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class VendingMachineTest.
+ *
+ * @author nibby
+ */
+<span class="fc" id="L18">public class VendingMachineTest {</span>
+	
+	/** The machine. */
+	VendingMachine machine;
+	
+	/** The item 1. */
+	VendingMachineItem item1;
+	
+	/** The item 2. */
+	VendingMachineItem item2;
+	
+	
+	/** The bad item. */
+	VendingMachineItem badItem;
+	
+
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
+	// Initializes a new VendingMachine object and creates two VendingMachineItem() objects
+	@Before
+	public void setUp() throws Exception {
+		
+<span class="fc" id="L43">		machine = new VendingMachine();</span>
+		
+<span class="fc" id="L45">		item1 = new VendingMachineItem(&quot;Skittles&quot;, 2.00);</span>
+<span class="fc" id="L46">		item2 = new VendingMachineItem(&quot;Doritos&quot;, 3.25);</span>
+		
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
+	// Sets the machine, item1, and item2 items to null
+	@After
+	public void tearDown() throws Exception {
+		
+<span class="fc" id="L59">		machine = null;</span>
+		
+<span class="fc" id="L61">		item1 = null;</span>
+<span class="fc" id="L62">		item2 = null;</span>
+		
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * Adds the item slot occupied test.
+	 */
+	//Test that should throw an exception when an item is added to a slot that is already occupied
+	@Test (expected = VendingMachineException.class)
+	public void addItemSlotOccupiedTest() {
+		
+<span class="fc" id="L73">		machine.addItem(item1, &quot;A&quot;);</span>
+<span class="nc" id="L74">		machine.addItem(item2, &quot;A&quot;);</span>
+		
+<span class="nc" id="L76">	}</span>
+	
+	
+	/**
+	 * Adds the item invalid code.
+	 */
+	// Test that should throw and exception when an invalid slot code is entered
+	@Test (expected = VendingMachineException.class)
+	public void addItemInvalidCode() {
+		
+<span class="nc" id="L86">		machine.addItem(item1, &quot;F&quot;);</span>
+		
+<span class="nc" id="L88">	}</span>
+	
+	/**
+	 * Adds the item null item.
+	 */
+	// Test that should throw and exception when a null item is added to the VendingMachine
+	@Test (expected = VendingMachineException.class)
+	public void addItemNullItem() {
+		
+<span class="nc" id="L97">		machine.addItem(null, &quot;C&quot;);</span>
+		
+<span class="nc" id="L99">	}</span>
+	
+	/**
+	 * Adds the item test.
+	 */
+	//Test should pass if item added is the same as the item in the slot
+	@Test
+	public void addItemSlotEmptyTest(){
+		
+<span class="fc" id="L108">		machine.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L109">		assertSame(item1, machine.getItem(&quot;A&quot;));</span>
+		
+<span class="fc" id="L111">	}</span>
+	
+	/**
+	 * Removes the item if slot empty test.
+	 */
+	// Test that should throw and exception when an item is removed from a slot that contains no VendingMachineItems
+	@Test (expected = VendingMachineException.class)
+	public void removeItemIfSlotEmptyTest() {
+		
+<span class="nc" id="L120">		machine.removeItem(&quot;A&quot;);</span>
+		
+<span class="nc" id="L122">	}</span>
+	
+	/**
+	 * Removes the item if not null test.
+	 */
+	// Test that assures that the slot where an item was removed is empty
+	@Test
+	public void removeItemIfNotEmptyTest() {
+		
+<span class="fc" id="L131">		machine.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L132">		machine.removeItem(&quot;A&quot;);</span>
+		
+<span class="fc" id="L134">		assertNull(machine.getItem(&quot;A&quot;));</span>
+		
+<span class="fc" id="L136">	}</span>
+	
+	
+	/**
+	 * Removes the item correct item returned test.
+	 */
+	// Test that checks if the returned item from the removeItem() method is the same as the item that was placed in the slot
+	@Test
+	public void removeItemCorrectItemReturnedTest() {
+		
+<span class="fc" id="L146">		machine.addItem(item1, &quot;D&quot;);</span>
+		
+<span class="fc" id="L148">		assertEquals(item1, machine.removeItem(&quot;D&quot;));</span>
+		
+<span class="fc" id="L150">	}</span>
+	
+	/**
+	 * Insert money amount less than zero test.
+	 */
+	// Test that should throw and exception when money inserted is less than 0
+	@Test (expected = VendingMachineException.class)
+	public void insertMoneyLessThanZeroTest() {
+		
+<span class="nc" id="L159">		machine.insertMoney(-1.00);</span>
+		
+<span class="nc" id="L161">	}</span>
+	
+	/**
+	 * Insert money negative zero test.
+	 */
+	// Test that should throw an exception when money inserted is equal to -0
+	@Test (expected = VendingMachineException.class)
+	public void insertMoneyNegativeZeroTest() {
+		
+<span class="nc" id="L170">		machine.insertMoney(-0);</span>
+		
+<span class="nc" id="L172">	}</span>
+	
+	
+	/**
+	 * Insert money valid amount test.
+	 */
+	// Test that makes sure when entering a valid amount that the valid amount is reflected in the balance
+	@Test
+	public void insertMoneyValidAmountTest() {
+		
+<span class="fc" id="L182">		machine.insertMoney(40.35);</span>
+<span class="fc" id="L183">		assertEquals(40.35, machine.getBalance(), 0.001);</span>
+		
+<span class="fc" id="L185">	}</span>
+	
+	/**
+	 * Gets the balance test.
+	 */
+	// Test that makes sure the amount inserted into the machine is equal to the balance
+	@Test
+	public void getBalanceTest() {
+		
+<span class="fc" id="L194">		machine.insertMoney(2.35);</span>
+<span class="fc" id="L195">		machine.insertMoney(1.00);</span>
+<span class="fc" id="L196">		machine.insertMoney(3.00);</span>
+		
+<span class="fc" id="L198">		assertEquals(6.35, machine.getBalance(), 0.001);</span>
+		
+<span class="fc" id="L200">	}</span>
+	
+	/**
+	 * Make purchase item slot null test.
+	 */
+	// Test that makes sure the return value after making a purchase is false when the item slot is empty
+	@Test
+	public void makePurchaseItemSlotNullTest() {
+		
+<span class="fc" id="L209">		assertEquals(false, machine.makePurchase(&quot;A&quot;));</span>
+		
+<span class="fc" id="L211">	}</span>
+	
+	/**
+	 * Make purchase balance equals price test.
+	 */
+	// Test that makes sure that the makePurchase() return value is true when the balance is equal to the price of the item
+	@Test
+	public void makePurchaseBalanceEqualsPriceTest() {
+		
+<span class="fc" id="L220">		machine.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L221">		machine.insertMoney(2.00);</span>
+		
+<span class="fc" id="L223">		assertEquals(true, machine.makePurchase(&quot;A&quot;));</span>
+		
+<span class="fc" id="L225">	}</span>
+	
+	/**
+	 * Make purchase balance more than price test.
+	 */
+	// Test that makes sure that the makePurchase() return value is true when the balance is more than the price of the item
+	@Test
+	public void makePurchaseBalanceMoreThanPriceTest() {
+		
+<span class="fc" id="L234">		machine.addItem(item1, &quot;A&quot;);</span>
+<span class="fc" id="L235">		machine.insertMoney(40.00);</span>
+		
+<span class="fc" id="L237">		assertEquals(true, machine.makePurchase(&quot;A&quot;));</span>
+		
+<span class="fc" id="L239">	}</span>
+	
+	/**
+	 * Make purchase balance less than price test.
+	 */
+	// Test that makes sure the makePurchase() method returns false when the balance is less than the price of the item
+	@Test
+	public void makePurchaseBalanceLessThanPriceTest() {
+		
+<span class="fc" id="L248">		machine.addItem(item1, &quot;B&quot;);</span>
+<span class="fc" id="L249">		machine.insertMoney(1.99);</span>
+		
+<span class="fc" id="L251">		assertEquals(false, machine.makePurchase(&quot;B&quot;));</span>
+		
+<span class="fc" id="L253">	}</span>
+	
+	/**
+	 * Return change no purchase test.
+	 */
+	// Test that makes sure the returnChange() method returns the correct amount of change when there is no purchase made
+	@Test
+	public void returnChangeNoPurchaseTest() {
+		
+<span class="fc" id="L262">		machine.insertMoney(20.00);</span>
+		
+<span class="fc" id="L264">		assertEquals(20.00, machine.returnChange(), 0.001);</span>
+		
+<span class="fc" id="L266">	}</span>
+	
+	/**
+	 * Return change one purchase test.
+	 */
+	// Test that ensures the returnChange() method returns the correct amount of change after a purchase is made
+	@Test
+	public void returnChangeOnePurchaseTest() {
+		
+<span class="fc" id="L275">		machine.addItem(item1, &quot;C&quot;);</span>
+<span class="fc" id="L276">		machine.insertMoney(20.00);</span>
+<span class="fc" id="L277">		machine.makePurchase(&quot;C&quot;);</span>
+		
+<span class="fc" id="L279">		assertEquals(18.00, machine.returnChange(), 0.001);</span>
+		
+<span class="fc" id="L281">	}</span>
+	
+	/**
+	 * Return change zero balance test.
+	 */
+	// Test that ensures that the returnChange() method returns the correct amount of change when the balance is 0
+	@Test
+	public void returnChangeZeroBalanceTest() {
+		
+<span class="fc" id="L290">		assertEquals(0.00, machine.returnChange(), 0.001);</span>
+		
+<span class="fc" id="L292">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span>VendingMachine (Feb 25, 2021 12:32:37 PM)</div></body></html>
